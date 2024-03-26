@@ -1,10 +1,8 @@
 package Enum.data.models;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import java.time.LocalDate;
@@ -23,7 +21,7 @@ public class Cohort {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    private String cohortName;
 
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT", length = 1000)
     private String description;
