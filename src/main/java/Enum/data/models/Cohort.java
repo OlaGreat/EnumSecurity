@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.time.LocalDate;
@@ -21,7 +22,7 @@ public class Cohort {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = tru`   e, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT", length = 1000)
@@ -33,10 +34,14 @@ public class Cohort {
 
     private String endDate;
 
+    private String  avatarImageUrl;
+
+
+
     @PrePersist
     public void setCreatedAt(){
         LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         startDate= currentTime.format(formatter);
 
         LocalDate currentDate = LocalDate.now().plusDays(ONE_YEAR);
