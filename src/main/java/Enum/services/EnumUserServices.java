@@ -49,17 +49,4 @@ public class EnumUserServices implements UserService{
     }
 
 
-    @Override
-    public LoginResponse login (LoginRequest loginRequest) {
-        return LoginResponse.builder().fullName("Login successful").build();
-    }
-
-
-
-
-    private void update(String email){
-        User foundUser = getUserByEmail(email);
-        foundUser.setRole(Role.ADMIN);
-        userRepository.save(foundUser);
-    }
 }

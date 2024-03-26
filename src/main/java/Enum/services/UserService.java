@@ -13,7 +13,6 @@ public interface UserService {
     RegisterUserResponse signUp(RegisterUserRequest request);
     User getUserByEmail(String UserEmail);
 
-    LoginResponse login(LoginRequest loginRequest);
 
 
 }
