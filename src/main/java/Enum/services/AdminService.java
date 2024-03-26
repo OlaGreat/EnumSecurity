@@ -1,6 +1,8 @@
 package Enum.services;
 
 import Enum.dto.request.AddCohortRequest;
+import Enum.dto.request.RegisterUserRequest;
+import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
 import Enum.dto.response.GetCohortResponse;
 
@@ -12,4 +14,6 @@ public interface AdminService {
     List<GetCohortResponse> getAllCohort();
 
     GetCohortResponse getCohort(String cohortName);
+
+    ApiResponse<?> registerAdmin(RegisterUserRequest request);
 }

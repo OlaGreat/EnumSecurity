@@ -3,8 +3,13 @@ package Enum.services;
 
 import Enum.data.models.Cohort;
 import Enum.data.models.Program;
+import Enum.data.models.Role;
+import Enum.data.models.User;
 import Enum.data.repositories.CohortRepository;
+import Enum.data.repositories.UserRepository;
 import Enum.dto.request.AddCohortRequest;
+import Enum.dto.request.RegisterUserRequest;
+import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
 import Enum.dto.response.GetCohortResponse;
 import Enum.exceptions.CohortNotFoundException;
@@ -16,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static Enum.data.models.Role.ADMIN;
 import static Enum.dto.response.ResponseMessages.COHORT_ADDED;
+import static Enum.dto.response.ResponseMessages.USER_REGISTRATION_SUCCESSFUL;
 import static Enum.exceptions.ExceptionMessages.COHORT_NOT_FOUND;
 import static Enum.exceptions.ExceptionMessages.USER_WITH_EMAIL_NOT_FOUND;
 
@@ -26,6 +33,7 @@ public class EnumAdminService implements AdminService{
 
     private final CohortRepository cohortRepository;
     private final CloudServices cloudServices;
+    private final UserRepository userRepository;
 
     @Override
     public CohortRegistrationResponse addCohort(AddCohortRequest addCohortRequest) {
@@ -66,6 +74,16 @@ public class EnumAdminService implements AdminService{
         return mapCohort(cohort);
     }
 
+    @Override
+    public ApiResponse<?> registerAdmin(RegisterUserRequest request) {
+        User user = new User();
+        user.setRole(ADMIN);
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        User savedUser = userRepository.save(user);
+
+        return ApiResponse.builder().data(USER_REGISTRATION_SUCCESSFUL.getMessage()).build();
+    }
 
 
     private static GetCohortResponse mapCohort(Cohort cohort){

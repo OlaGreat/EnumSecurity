@@ -2,6 +2,8 @@ package Enum.services;
 
 import Enum.dto.request.AddCohortRequest;
 
+import Enum.dto.request.RegisterUserRequest;
+import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
 import Enum.dto.response.GetCohortResponse;
 import Enum.services.cloud.CloudServices;
@@ -26,7 +28,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 class EnumAdminServiceTest {
     @Autowired
     private  AdminService adminService;
-    private CloudServices cloudServices;
+
+
+    @Test
+    public void testAdminCanRegister(){
+        RegisterUserRequest request = buildRegisterUserRequest();
+
+        ApiResponse<?> response = adminService.registerAdmin(request);
+
+        assertThat(response).isNotNull();
+        System.out.println(response);
+    }
 
     @Test
     public void testAdminCanAddCohort() throws IOException {
@@ -67,8 +79,14 @@ class EnumAdminServiceTest {
         MultipartFile multipartFile = new MockMultipartFile("testImage", inputStream);
 
         return  multipartFile;
+    }
 
+    private RegisterUserRequest buildRegisterUserRequest(){
+        RegisterUserRequest request = new RegisterUserRequest();
+        request.setEmail("Oladipupoolamilekan2@gmail.com");
+        request.setPassword("12345");
 
+        return request;
     }
 
 
