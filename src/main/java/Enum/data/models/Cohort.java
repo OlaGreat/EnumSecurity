@@ -8,8 +8,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static Enum.utils.AppUtils.ONE_YEAR;
+import static jakarta.persistence.CascadeType.ALL;
 
 @Getter
 @Setter
@@ -26,8 +28,8 @@ public class Cohort {
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT", length = 1000)
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    private Program program;
+    @OneToMany(mappedBy = "cohort", orphanRemoval = true)
+    private List<Program> programs;
     private String startDate;
 
     private String endDate;

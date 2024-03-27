@@ -3,9 +3,9 @@ package Enum.services;
 
 import Enum.data.models.Cohort;
 import Enum.data.models.Program;
-import Enum.data.models.Role;
 import Enum.data.models.User;
 import Enum.data.repositories.CohortRepository;
+import Enum.data.repositories.ProgramRepository;
 import Enum.data.repositories.UserRepository;
 import Enum.dto.request.AddCohortRequest;
 import Enum.dto.request.RegisterUserRequest;
@@ -15,7 +15,7 @@ import Enum.dto.response.GetCohortResponse;
 import Enum.exceptions.CohortNotFoundException;
 import Enum.services.cloud.CloudServices;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +24,7 @@ import java.util.List;
 import static Enum.data.models.Role.ADMIN;
 import static Enum.dto.response.ResponseMessages.COHORT_ADDED;
 import static Enum.dto.response.ResponseMessages.USER_REGISTRATION_SUCCESSFUL;
-import static Enum.exceptions.ExceptionMessages.COHORT_NOT_FOUND;
-import static Enum.exceptions.ExceptionMessages.USER_WITH_EMAIL_NOT_FOUND;
+import static Enum.exceptions.ExceptionMessages.*;
 
 @Service
 @AllArgsConstructor
@@ -35,16 +34,22 @@ public class EnumAdminService implements AdminService{
     private final CloudServices cloudServices;
     private final UserRepository userRepository;
 
+    private final ProgramRepository programRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public CohortRegistrationResponse addCohort(AddCohortRequest addCohortRequest) {
         String cohortName = addCohortRequest.getCohortName();
-        MultipartFile cohortAvatar = addCohortRequest.getMultipartFile();
+        MultipartFile cohortAvatar = addCohortRequest.getFile();
         String cohortAvatarUrl = cloudServices.upload(cohortAvatar);
+        Program program = new Program();
+        program.setProgramName(addCohortRequest.getProgram());
 
         Cohort cohort = new Cohort();
         cohort.setCohortName(cohortName);
         cohort.setDescription(addCohortRequest.getDescription());
-        cohort.setProgram(Program.valueOf(addCohortRequest.getProgram().toUpperCase()));
+        cohort.setPrograms(List.of(program));
         cohort.setAvatarImageUrl(cohortAvatarUrl);
 
         Cohort savedCohort = cohortRepository.save(cohort);
@@ -76,13 +81,32 @@ public class EnumAdminService implements AdminService{
 
     @Override
     public ApiResponse<?> registerAdmin(RegisterUserRequest request) {
+
+        String password = passwordEncoder.encode(request.getPassword());
+
         User user = new User();
         user.setRole(ADMIN);
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(password);
         User savedUser = userRepository.save(user);
 
         return ApiResponse.builder().data(USER_REGISTRATION_SUCCESSFUL.getMessage()).build();
+    }
+
+    @Override
+    public ApiResponse<?> createProgram(String programName) {
+        Program program = new Program(programName);
+        Program savedProgram = programRepository.save(program);
+
+        return ApiResponse.builder()
+                .data(COHORT_ADDED.getMessage())
+                .build();
+    }
+
+    @Override
+    public List<Program> getAllProgram() {
+        List<Program> programs = programRepository.findAll();
+        return programs;
     }
 
 
@@ -93,9 +117,15 @@ public class EnumAdminService implements AdminService{
                 .startDate(cohort.getStartDate())
                 .endDate(cohort.getEndDate())
                 .avatarImageUrl(cohort.getAvatarImageUrl())
-                .program(cohort.getProgram())
+                .programs(cohort.getPrograms())
                 .build();
 
         return mappedCohort;
     }
+
+//    private static <T> T verifyInput(T data){
+//        if(data.equals(null)) return (T) new InvalidParameterException(INVALID_CREDENTIALS_EXCEPTION.getMessage());
+//        return data;
+//
+//    }
 }

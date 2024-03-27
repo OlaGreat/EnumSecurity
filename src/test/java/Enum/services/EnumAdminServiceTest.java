@@ -1,12 +1,12 @@
 package Enum.services;
 
+import Enum.data.models.Program;
 import Enum.dto.request.AddCohortRequest;
 
 import Enum.dto.request.RegisterUserRequest;
 import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
 import Enum.dto.response.GetCohortResponse;
-import Enum.services.cloud.CloudServices;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,17 +58,30 @@ class EnumAdminServiceTest {
     @Test
     public void testGetAllCohort(){
         List<GetCohortResponse> allCohort = adminService.getAllCohort();
-        System.out.println(allCohort);
+
         assertThat(allCohort.size()).isGreaterThan(0);
 
     }
 
+    @Test
+    public void createProgram(){
+        ApiResponse<?> response = adminService.createProgram("JAVA");
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void testGetAllProgram(){
+        List<Program> programs = adminService.getAllProgram();
+
+        assertThat(programs.size()).isGreaterThan(0);
+    }
+
     private AddCohortRequest buildAddCohortRequest() throws IOException {
         AddCohortRequest request = new AddCohortRequest();
-        request.setCohortName("Diamond");
+        request.setCohortName("Diamond2");
         request.setDescription("A cohort built on ubuntu");
-        request.setProgram("Software_Engineering");
-        request.setMultipartFile(getAvatar());
+        request.setProgram("Software Engineering");
+        request.setFile(getAvatar());
         return request;
 
     }
@@ -83,7 +96,7 @@ class EnumAdminServiceTest {
 
     private RegisterUserRequest buildRegisterUserRequest(){
         RegisterUserRequest request = new RegisterUserRequest();
-        request.setEmail("Oladipupoolamilekan2@gmail.com");
+        request.setEmail("dominic@gmail.com");
         request.setPassword("12345");
 
         return request;

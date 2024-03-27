@@ -1,5 +1,6 @@
 package Enum.services;
 
+import Enum.data.models.Program;
 import Enum.dto.request.AddCohortRequest;
 import Enum.dto.request.RegisterUserRequest;
 import Enum.dto.response.ApiResponse;
@@ -16,4 +17,8 @@ public interface AdminService {
     GetCohortResponse getCohort(String cohortName);
 
     ApiResponse<?> registerAdmin(RegisterUserRequest request);
+
+    ApiResponse<?> createProgram(String programName);
+
+    List<Program> getAllProgram();
 }
