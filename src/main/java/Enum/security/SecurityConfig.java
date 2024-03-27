@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf(c->c.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(c->c.requestMatchers(POST, publicEndPoints).permitAll())
-                .authorizeHttpRequests(c->c.requestMatchers(POST, adminEndPoints).hasAuthority(ADMIN.name()))
+                .authorizeHttpRequests(c->c.requestMatchers(adminEndPoints).hasAuthority(ADMIN.name()))
                 .authorizeHttpRequests(c->c.anyRequest().hasAuthority(CUSTOMER.name()))
                 .build();
 
