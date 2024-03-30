@@ -5,6 +5,7 @@ import Enum.dto.request.AddCohortRequest;
 import Enum.dto.request.RegisterUserRequest;
 import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
+import Enum.dto.response.GetAllProgramResponse;
 import Enum.dto.response.GetCohortResponse;
 
 import java.util.List;
@@ -20,5 +21,7 @@ public interface AdminService {
 
     ApiResponse<?> createProgram(String programName);
 
-    List<Program> getAllProgram();
+    List<GetAllProgramResponse> getAllProgram();
+
+    Program findProgramByName(String programName);
 }

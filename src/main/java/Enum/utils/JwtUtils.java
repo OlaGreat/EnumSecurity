@@ -14,7 +14,6 @@ public class JwtUtils {
         String token = JWT.create()
                 .withClaim(ROLES, authorities)
                 .withIssuer(APP_NAME)
-                .withExpiresAt(Instant.now().plusSeconds(3600))
                 .sign(Algorithm.HMAC512(SECRET));
 
         return token;

@@ -28,7 +28,7 @@ public class Cohort {
     @Column(nullable = false, columnDefinition = "MEDIUMTEXT", length = 1000)
     private String description;
 
-    @OneToMany(mappedBy = "cohort", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Program> programs;
     private String startDate;
 

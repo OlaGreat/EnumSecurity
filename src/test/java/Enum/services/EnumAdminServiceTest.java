@@ -6,6 +6,7 @@ import Enum.dto.request.AddCohortRequest;
 import Enum.dto.request.RegisterUserRequest;
 import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
+import Enum.dto.response.GetAllProgramResponse;
 import Enum.dto.response.GetCohortResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,8 @@ class EnumAdminServiceTest {
     public void testGetAllCohort(){
         List<GetCohortResponse> allCohort = adminService.getAllCohort();
 
+        System.out.println(allCohort);
+
         assertThat(allCohort.size()).isGreaterThan(0);
 
     }
@@ -66,12 +69,13 @@ class EnumAdminServiceTest {
     @Test
     public void createProgram(){
         ApiResponse<?> response = adminService.createProgram("JAVA");
+
         assertThat(response).isNotNull();
     }
 
     @Test
     public void testGetAllProgram(){
-        List<Program> programs = adminService.getAllProgram();
+        List<GetAllProgramResponse> programs = adminService.getAllProgram();
 
         assertThat(programs.size()).isGreaterThan(0);
     }
@@ -80,7 +84,7 @@ class EnumAdminServiceTest {
         AddCohortRequest request = new AddCohortRequest();
         request.setCohortName("Diamond2");
         request.setDescription("A cohort built on ubuntu");
-        request.setProgram("Software Engineering");
+        request.setProgram(List.of("java", "software Engineering", "python"));
         request.setFile(getAvatar());
         return request;
 

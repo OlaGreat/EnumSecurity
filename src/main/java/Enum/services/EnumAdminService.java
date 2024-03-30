@@ -11,14 +11,17 @@ import Enum.dto.request.AddCohortRequest;
 import Enum.dto.request.RegisterUserRequest;
 import Enum.dto.response.ApiResponse;
 import Enum.dto.response.CohortRegistrationResponse;
+import Enum.dto.response.GetAllProgramResponse;
 import Enum.dto.response.GetCohortResponse;
 import Enum.exceptions.CohortNotFoundException;
+import Enum.exceptions.ProgramNotFound;
 import Enum.services.cloud.CloudServices;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static Enum.data.models.Role.ADMIN;
@@ -42,15 +45,15 @@ public class EnumAdminService implements AdminService{
     public CohortRegistrationResponse addCohort(AddCohortRequest addCohortRequest) {
         String cohortName = addCohortRequest.getCohortName();
         MultipartFile cohortAvatar = addCohortRequest.getFile();
-        String cohortAvatarUrl = cloudServices.upload(cohortAvatar);
-        Program program = new Program();
-        program.setProgramName(addCohortRequest.getProgram());
+//        String cohortAvatarUrl = cloudServices.upload(cohortAvatar);
+        List<Program> programs = mapProgram(addCohortRequest.getProgram());
+
 
         Cohort cohort = new Cohort();
         cohort.setCohortName(cohortName);
         cohort.setDescription(addCohortRequest.getDescription());
-        cohort.setPrograms(List.of(program));
-        cohort.setAvatarImageUrl(cohortAvatarUrl);
+        cohort.setPrograms(programs);
+//        cohort.setAvatarImageUrl(cohortAvatarUrl);
 
         Cohort savedCohort = cohortRepository.save(cohort);
 
@@ -64,9 +67,11 @@ public class EnumAdminService implements AdminService{
     @Override
     public List<GetCohortResponse> getAllCohort() {
         List<Cohort> allCohort = cohortRepository.findAll();
-        return allCohort.stream()
+        List<GetCohortResponse> allCohorts = allCohort.stream()
                 .map(EnumAdminService::mapCohort)
                 .toList();
+
+        return allCohorts;
     }
 
     @Override
@@ -95,7 +100,8 @@ public class EnumAdminService implements AdminService{
 
     @Override
     public ApiResponse<?> createProgram(String programName) {
-        Program program = new Program(programName);
+        Program program = new Program();
+        program.setProgramName(programName);
         Program savedProgram = programRepository.save(program);
 
         return ApiResponse.builder()
@@ -104,9 +110,19 @@ public class EnumAdminService implements AdminService{
     }
 
     @Override
-    public List<Program> getAllProgram() {
+    public List<GetAllProgramResponse> getAllProgram() {
         List<Program> programs = programRepository.findAll();
-        return programs;
+
+        return  programs.stream()
+                .map(EnumAdminService::mapProgram)
+                .toList();
+
+    }
+
+    private static GetAllProgramResponse mapProgram(Program program){
+        return GetAllProgramResponse.builder()
+                .programName(program.getProgramName())
+                .build();
     }
 
 
@@ -123,9 +139,22 @@ public class EnumAdminService implements AdminService{
         return mappedCohort;
     }
 
-//    private static <T> T verifyInput(T data){
-//        if(data.equals(null)) return (T) new InvalidParameterException(INVALID_CREDENTIALS_EXCEPTION.getMessage());
-//        return data;
-//
-//    }
+    public Program findProgramByName(String programName) {
+        Program foundProgram = programRepository.getProgramByProgramName(programName).orElseThrow(
+                () -> new ProgramNotFound(PROGRAM_NOT_FOUND.getMessage()));
+
+        return foundProgram;
+    }
+
+    private  List<Program> mapProgram(List<String> program){
+
+        List<Program> foundPrograms = new ArrayList<>();
+        for (String s : program) {
+            Program foundProgram = findProgramByName(s);
+            foundPrograms.add(foundProgram);
+        }
+       return foundPrograms;
+    }
+
+
 }

@@ -4,6 +4,7 @@ import Enum.data.models.Program;
 import Enum.dto.request.AddCohortRequest;
 import Enum.dto.request.RegisterUserRequest;
 import Enum.dto.response.CohortRegistrationResponse;
+import Enum.dto.response.GetAllProgramResponse;
 import Enum.dto.response.GetCohortResponse;
 import Enum.services.AdminService;
 import lombok.AllArgsConstructor;
@@ -40,8 +41,8 @@ public class AdminController {
     }
 
     @GetMapping("/get-all-programs")
-    public ResponseEntity<List<Program>> getAllProgram(){
-        List<Program> programs = adminService.getAllProgram();
+    public ResponseEntity<List<GetAllProgramResponse>> getAllProgram(){
+        List<GetAllProgramResponse> programs = adminService.getAllProgram();
         return ResponseEntity.status(HttpStatus.OK).body(programs);
     }
 

@@ -78,13 +78,10 @@ public class EnumAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        System.out.println("GHJhgkjhlkj;kw'q4iepo---------------------------------------->>>>>>>>>>>");
-
 
         response.setContentType(APPLICATION_JSON_VALUE);
         var apiResponse =  ApiResponse.builder().data(failed.getMessage()).build();
         objectMapper.writeValue(response.getOutputStream(), apiResponse);
-
 
     }
 }
