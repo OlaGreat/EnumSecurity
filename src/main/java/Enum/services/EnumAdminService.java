@@ -45,7 +45,7 @@ public class EnumAdminService implements AdminService{
     public CohortRegistrationResponse addCohort(AddCohortRequest addCohortRequest) {
         String cohortName = addCohortRequest.getCohortName();
         MultipartFile cohortAvatar = addCohortRequest.getFile();
-//        String cohortAvatarUrl = cloudServices.upload(cohortAvatar);
+        String cohortAvatarUrl = cloudServices.upload(cohortAvatar);
         List<Program> programs = mapProgram(addCohortRequest.getProgram());
 
 
@@ -53,7 +53,7 @@ public class EnumAdminService implements AdminService{
         cohort.setCohortName(cohortName);
         cohort.setDescription(addCohortRequest.getDescription());
         cohort.setPrograms(programs);
-//        cohort.setAvatarImageUrl(cohortAvatarUrl);
+        cohort.setAvatarImageUrl(cohortAvatarUrl);
 
         Cohort savedCohort = cohortRepository.save(cohort);
 
@@ -91,7 +91,7 @@ public class EnumAdminService implements AdminService{
 
         User user = new User();
         user.setRole(ADMIN);
-        user.setEmail(request.getEmail());
+        user.setEmail(request.getEmail().toLowerCase());
         user.setPassword(password);
         User savedUser = userRepository.save(user);
 

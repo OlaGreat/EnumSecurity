@@ -27,7 +27,7 @@ public class EnumUserServices implements UserService{
 
     @Override
     public RegisterUserResponse signUp(RegisterUserRequest request) {
-        String email = request.getEmail();
+        String email = request.getEmail().toLowerCase();
         String password = passwordEncoder.encode(request.getPassword());
 
         User user = new User();
