@@ -30,9 +30,9 @@ public class Cohort {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Program> programs;
-    private LocalDate startDate;
+    private String startDate;
 
-    private LocalDate endDate;
+    private String endDate;
 
     private String  avatarImageUrl;
 

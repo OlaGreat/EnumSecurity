@@ -21,8 +21,8 @@ public class GetCohortResponse {
     private String cohortName;
     private String description;
     private List<Program> programs;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String  startDate;
+    private String  endDate;
     private String  avatarImageUrl;
 
 }

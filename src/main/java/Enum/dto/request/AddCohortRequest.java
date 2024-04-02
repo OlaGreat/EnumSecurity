@@ -14,8 +14,8 @@ public class AddCohortRequest {
     private String description;
     private List<String> program;
     private MultipartFile file;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
 
 
 
