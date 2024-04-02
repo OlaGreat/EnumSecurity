@@ -43,6 +43,7 @@ public class EnumAdminService implements AdminService{
 
     @Override
     public CohortRegistrationResponse addCohort(AddCohortRequest addCohortRequest) {
+//        if (programRepository.existsByProgramName());
         String cohortName = addCohortRequest.getCohortName();
         MultipartFile cohortAvatar = addCohortRequest.getFile();
         String cohortAvatarUrl = cloudServices.upload(cohortAvatar);
@@ -54,6 +55,8 @@ public class EnumAdminService implements AdminService{
         cohort.setDescription(addCohortRequest.getDescription());
         cohort.setPrograms(programs);
         cohort.setAvatarImageUrl(cohortAvatarUrl);
+
+        System.out.println(cohort.getPrograms());
 
         Cohort savedCohort = cohortRepository.save(cohort);
 
@@ -147,12 +150,15 @@ public class EnumAdminService implements AdminService{
     }
 
     private  List<Program> mapProgram(List<String> program){
+        System.out.println("------------------------------------------------>>>>>>>>>>>>>>>>>>>>");
 
         List<Program> foundPrograms = new ArrayList<>();
         for (String s : program) {
             Program foundProgram = findProgramByName(s);
             foundPrograms.add(foundProgram);
+            System.out.println(foundProgram);
         }
+
        return foundPrograms;
     }
 

@@ -68,7 +68,9 @@ class EnumAdminServiceTest {
 
     @Test
     public void createProgram(){
-        ApiResponse<?> response = adminService.createProgram("JAVA");
+        ApiResponse<?> response = adminService.createProgram("Software Engineering");
+        ApiResponse<?> response1 = adminService.createProgram("Java");
+        ApiResponse<?> response2 = adminService.createProgram("Python");
 
         assertThat(response).isNotNull();
     }
@@ -82,9 +84,9 @@ class EnumAdminServiceTest {
 
     private AddCohortRequest buildAddCohortRequest() throws IOException {
         AddCohortRequest request = new AddCohortRequest();
-        request.setCohortName("Diamond2");
+        request.setCohortName("Gold");
         request.setDescription("A cohort built on ubuntu");
-        request.setProgram(List.of("java", "software Engineering", "python"));
+        request.setProgram(List.of( "software Engineering", "python"));
         request.setFile(getAvatar());
         return request;
 
