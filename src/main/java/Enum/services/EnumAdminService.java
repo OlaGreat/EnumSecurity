@@ -55,6 +55,8 @@ public class EnumAdminService implements AdminService{
         cohort.setDescription(addCohortRequest.getDescription());
         cohort.setPrograms(programs);
         cohort.setAvatarImageUrl(cohortAvatarUrl);
+        cohort.setStartDate(addCohortRequest.getStartDate());
+        cohort.setEndDate(addCohortRequest.getEndDate());
 
         System.out.println(cohort.getPrograms());
 

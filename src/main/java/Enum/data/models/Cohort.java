@@ -30,24 +30,24 @@ public class Cohort {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Program> programs;
-    private String startDate;
+    private LocalDate startDate;
 
-    private String endDate;
+    private LocalDate endDate;
 
     private String  avatarImageUrl;
 
 
 
-    @PrePersist
-    public void setCreatedAt(){
-        LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        startDate= currentTime.format(formatter);
-
-        LocalDate currentDate = LocalDate.now().plusDays(ONE_YEAR);
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyy");
-        endDate = currentDate.format(format);
-    }
+//    @PrePersist
+//    public void setCreatedAt(){
+//        LocalDateTime currentTime = LocalDateTime.now();
+//        DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        startDate= currentTime.format(formatter);
+//
+//        LocalDate currentDate = LocalDate.now().plusDays(ONE_YEAR);
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyy");
+//        endDate = currentDate.format(format);
+//    }
 
 
 }

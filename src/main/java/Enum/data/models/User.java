@@ -17,11 +17,14 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
+
     private String firstName;
+
     private String lastName;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
     @Column(nullable = false)
     private String password;
 

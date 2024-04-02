@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -20,8 +21,8 @@ public class GetCohortResponse {
     private String cohortName;
     private String description;
     private List<Program> programs;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String  avatarImageUrl;
 
 }

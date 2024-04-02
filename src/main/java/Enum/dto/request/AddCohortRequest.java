@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -13,6 +14,10 @@ public class AddCohortRequest {
     private String description;
     private List<String> program;
     private MultipartFile file;
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+
 
 
 }
