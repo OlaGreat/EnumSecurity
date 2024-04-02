@@ -84,7 +84,7 @@ class EnumAdminServiceTest {
 
     private AddCohortRequest buildAddCohortRequest() throws IOException {
         AddCohortRequest request = new AddCohortRequest();
-        request.setCohortName("Gold");
+        request.setCohortName("Diamond");
         request.setDescription("A cohort built on ubuntu");
         request.setProgram(List.of( "software Engineering", "python"));
         request.setFile(getAvatar());
